@@ -1,40 +1,3 @@
-// import  { useState } from 'react';
-// import { useDispatch } from 'react-redux';
-// import { addTodo } from '../features/todos/todosSlice';
-
-
-// const AddTodo = () => {
-//   const [todo, setTodo] = useState('');
-//   const dispatch = useDispatch();
-
-//   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-//     e.preventDefault();
-//     if (todo.trim() !== '') {
-//       dispatch(addTodo({ id: Date.now(), description: todo }));
-//       setTodo(''); 
-//     }
-//   };
-
-//   return (
-//     <div className="add-todo flex justify-center mt-8">
-//       <form onSubmit={handleSubmit} className="flex items-center space-x-2">
-//         <input
-//           type="text"
-//           value={todo}
-//           onChange={(e) => setTodo(e.target.value)}
-//           placeholder="Enter new todo"
-//           className="px-4 py-2 border rounded"
-//         />
-//         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-//           Add Todo
-//         </button>
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default AddTodo;
-// src/pages/AddTodo.tsx
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
@@ -55,7 +18,7 @@ const AddTodo = () => {
     },
     validationSchema: Yup.object({
       title: Yup.string().required("Title is required"),
-      description: Yup.string(),
+      description: Yup.string().required("Description is required"),
     }),
     onSubmit: (values) => {
       const newTodo: Todo = {
@@ -72,51 +35,29 @@ const AddTodo = () => {
   });
 
   return (
-    <div className="mt-40 max-w-md mx-auto bg-white p-6 rounded shadow">
-      <h2 className="text-xl font-semibold mb-4">Create Todo</h2>
-      <form onSubmit={formik.handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="title" className="block text-sm font-medium">
-            Title
-          </label>
-          <input
-            id="title"
-            name="title"
-            type="text"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.title}
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-          {formik.touched.title && formik.errors.title && (
-            <div className="text-red-500 text-sm">{formik.errors.title}</div>
-          )}
-        </div>
+    <div className="bg-green-200 min-h-screen flex items-center">
+      <div className="bg-white p-10 md:w-2/3 lg:w-1/2 mx-auto h-70 rounded">
+        <form action="" onSubmit={formik.handleSubmit}>
+          <div className="flex items-center mb-5">
+            <label className="w-20 inline-block text-right mr-4 text-gray-500">To-Do</label>
+            <input onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.title} name="title" id="name" type="text" className="border-b-2 border-gray-400 flex-1 py-2 placeholder-gray-300 outline-none focus:border-green-400" />
+            {formik.touched.title && formik.errors.title && (
+              <div className="text-red-500 text-sm">{formik.errors.title}</div>
+            )}
+          </div>
 
-        <div>
-          <label htmlFor="description" className="block text-sm font-medium">
-            Description
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.description}
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-          {formik.touched.description && formik.errors.description && (
-            <div className="text-red-500 text-sm">{formik.errors.description}</div>
-          )}
-        </div>
-
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Add Todo
-        </button>
-      </form>
+          <div className="flex items-center mb-10">
+            <label className="w-20 inline-block text-right mr-4 text-gray-500">Description</label>
+            <input onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.description} type="text" name="description" id="description" className="border-b-2 border-gray-400 flex-1 py-2 placeholder-gray-300 outline-none focus:border-green-400" />
+            {formik.touched.description && formik.errors.description && (
+              <div className="text-red-500 text-sm">{formik.errors.description}</div>
+            )}
+          </div>
+          <div className="text-right">
+            <button type="submit" className="py-3 px-8 bg-green-500 text-green-100 font-bold rounded">Add</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
